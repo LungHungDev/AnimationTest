@@ -10,11 +10,19 @@ export interface FormValue {
   width: number
 }
 
-export interface SpriteItem {
-	key: string,
-  frame: number
-  frameRate: number,
-  height: number,
-  width: number,
-  image_url:string
+export class SpriteItem {
+  key!: string;
+  frame!: number;
+  frameRate!: number;
+  height!: number;
+  width!: number;
+  image_url!:string;
+  constructor(sprite:any) {
+    Object.assign(this,sprite);
+  }
+}
+
+export class ImageObject {
+  url:string = '';
+  styleElement!:HTMLStyleElement
 }

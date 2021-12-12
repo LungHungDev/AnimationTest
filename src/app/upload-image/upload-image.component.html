@@ -1,10 +1,10 @@
 <h1 style="text-align: center;">Image Config</h1>
 
 <div style="width: 500px;padding: 10px;">
-  <ng-container *ngFor="let action of actionType | keyvalue">
+  <ng-container *ngFor="let action of actionList">
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" [id]="action.key+'-check'" (change)="addType($event,action.key)" [disabled]="action.key == 'Idle'" [checked]="action.key == 'Idle'">
-      <label class="form-check-label" [for]="action.key+'-check'">{{action.key}}</label>
+      <input class="form-check-input" type="checkbox" [id]="action+'-check'" (change)="addType($event,action)" [disabled]="action == 'Idle'" [checked]="action == 'Idle'">
+      <label class="form-check-label" [for]="action+'-check'">{{action}}</label>
     </div>
   </ng-container>
 </div>
@@ -35,10 +35,10 @@
         </div>
     
         <div *ngIf="imageUrlGroup[actionkey]" class="input-group input-group-sm mb-1">
-          <img class="p-2 bg-light border mx-auto" style="max-width: 500px; max-height: 3em;" [src]="imageUrlGroup[actionkey]">
+          <img class="p-2 bg-light border mx-auto" style="max-width: 500px; max-height: 3em;" [src]="imageUrlGroup[actionkey].url">
         </div>
         <div class="mb-1 text-center">
-          <input type="submit" class="btn btn-secondary" [disabled]="(!actionGroup[actionkey].valid)&&anyboolean" value="載入">
+          <input type="submit" class="btn btn-secondary" [disabled]="(actionGroup[actionkey].errors != null)||(!actionGroup[actionkey].valid)" value="載入">
           <button type="button" (click)="resetForm(actionkey)" class="btn btn-outline-secondary">重設</button>
         </div>
       </form>
@@ -47,7 +47,7 @@
         <div *ngIf="imageUrlGroup[actionkey]" class="card previwer mb-3">
           <div [id]="actionkey+'Show'"></div>
         </div>
-        <button *ngIf="actionGroup[actionkey].value.isSend == 'true'" type="button" class="btn btn-success mb-1">確定匯入</button>
+        <button *ngIf="imageUrlGroup[actionkey]&&imageUrlGroup[actionkey].styleElement" type="button" [disabled]="checkSprite(actionkey)" (click)="importSprite(actionGroup[actionkey],actionkey)" class="btn btn-success mb-1">確定匯入</button>
       </div>
     
     </div>
