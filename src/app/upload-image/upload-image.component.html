@@ -1,0 +1,56 @@
+<h1 style="text-align: center;">Image Config</h1>
+
+<div style="width: 500px;padding: 10px;">
+  <ng-container *ngFor="let action of actionType | keyvalue">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" [id]="action.key+'-check'" (change)="addType($event,action.key)" [disabled]="action.key == 'Idle'" [checked]="action.key == 'Idle'">
+      <label class="form-check-label" [for]="action.key+'-check'">{{action.key}}</label>
+    </div>
+  </ng-container>
+</div>
+
+<div style="padding: 10px;">
+
+  <ng-container *ngFor="let form of MapKeys(actionGroup)">
+    <div class="mb-3" style="display: flex;">
+
+      <form style="width: 500px;" *ngIf="actionGroup[form]" [formGroup]="actionGroup[form]" (submit)="previwer(form,actionGroup[form].value)">
+        <span class="fs-4">Action: </span><label class="form-label fw-bold">{{form}}</label>
+        <div class="input-group input-group-sm mb-1">
+          <input type="file" class="form-control" id="image_file" (change)="loadImage($event,form)" formControlName="image_file" accept="image/*">
+        </div>
+        
+        <div class="input-group input-group-sm mb-1">
+          <span class="input-group-text">單幀寬度(px)</span>
+          <input type="number" class="form-control" placeholder="請輸入整數" id="width" formControlName="width">
+          <span class="input-group-text">單幀高度(px)</span>
+          <input type="number" class="form-control" placeholder="請輸入整數" id="height" formControlName="height">
+        </div>
+    
+        <div class="input-group input-group-sm mb-1">
+          <span class="input-group-text">總幀數</span>
+          <input type="number" class="form-control" placeholder="請輸入整數" formControlName="frame">
+          <span class="input-group-text">每秒幀數<span style="font-size: 12px;">(建議8～10開始調整)</span></span>
+          <input type="number" class="form-control" placeholder="請輸入整數" id="frameRate" formControlName="frameRate">
+        </div>
+    
+        <div *ngIf="imageUrlGroup[form]" class="input-group input-group-sm mb-1">
+          <img class="p-2 bg-light border mx-auto" style="max-width: 500px; max-height: 3em;" [src]="imageUrlGroup[form]">
+        </div>
+        <div class="mb-1 text-center">
+          <button type="submit" class="btn btn-secondary" [disabled]="!actionGroup[form].valid">預覽</button>
+          <button type="button" (click)="actionGroup[form].reset()" class="btn btn-outline-secondary">重設</button>
+        </div>
+      </form>
+      
+      <div *ngIf="imageUrlGroup[form]" class="card mx-3 previwer">
+        <!-- <img [src]="uploadImageGroup[form]" class="card-img-top"> -->
+        <!-- <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div> -->
+        <div [id]="form+'Show'"></div>
+      </div>
+    
+    </div>
+  </ng-container>
+</div>
