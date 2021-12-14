@@ -1,7 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import  { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreateAnyObject, FormValue, SpriteItem, ImageObject } from '../model/interface';
 import Swal from 'sweetalert2';
+import { PackageService } from '../service/package.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { GameFrameComponent } from '../game-frame/game-frame.component';
 
 @Component({
   selector: 'app-upload-image',
@@ -9,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./upload-image.component.scss']
 })
 export class UploadImageComponent implements OnInit,AfterViewInit {
+  @Output() createEvent = new EventEmitter<boolean>();
   MapKeys = Object.keys;
 
   /**
@@ -31,10 +35,14 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
    */
   spriteList:SpriteItem[] = [];
 
-  constructor() { }
+  constructor(
+    private packageService: PackageService,
+    public matDialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.actionGroup[this.actionList[0]] = this.createForm();
+    // this.importSubmit();
   }
 
   ngAfterViewInit() {
@@ -81,14 +89,6 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
     this.removeSprite(actionkey);
   }
 
-  uploadSubmit(formValue:any) {
-    if(!formValue.image_file) {
-      Swal.fire('錯誤', '請先上傳圖片並點擊載入圖片', 'error');
-      return;
-    }
-    console.log(formValue);
-  }
-
   /**
    * 將上傳的圖片進行預覽
    * @param inputImage change事件
@@ -107,10 +107,10 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
 
   /**
    * 將設定的動畫進行預覽
-   * @param actionkey 動畫名稱
    * @param formValue 該動畫設定的表單內容
+   * @param actionkey 動畫名稱
    */
-  previwerAndImport(actionkey:string,formValue:FormValue) {
+  previwerAndImport(formValue:FormValue,actionkey:string) {
     this.removeStyleChild(actionkey);
 
     //若動畫是正方形就做等比放大 大小為外框的1/2
@@ -133,8 +133,13 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
     document.getElementsByTagName('head')[0].appendChild(style);
   }
   
-  importSprite(event:any,actionkey:string) {
-    const formValue:FormValue = event.value;
+  /**
+   * 匯入生成遊戲的精靈圖列表
+   * @param event 創建動畫表單
+   * @param actionkey 動畫名稱
+   */
+  importSprite(form:any,actionkey:string) {
+    const formValue:FormValue = form.value;
     this.spriteList.push(new SpriteItem({
       key:actionkey,
       frame:formValue.frame,
@@ -143,8 +148,25 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
       width: formValue.width,
       image_url: this.imageUrlGroup[actionkey].url
     }))
-    event.errors = { commit:true };
-    console.log(this.spriteList);
+    form.errors = { commit:true };
+  }
+
+  /**
+   * 確定生成遊戲畫面
+   */
+  importSubmit() {
+    // if(this.spriteList.length < 1) {
+    //   Swal.fire('錯誤', '請先上傳圖片並點擊確定匯入', 'error');
+    //   return;
+    // }
+    const config:MatDialogConfig = {
+      width: '850px',
+      height: '648px',
+      disableClose:true
+    }
+    this.packageService.getPackage(this.spriteList);
+    // this.createEvent.emit(true);
+    this.matDialog.open(GameFrameComponent,config)
   }
 
   checkSprite(actionkey:string) {

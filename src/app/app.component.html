@@ -1,2 +1,18 @@
-<app-upload-image></app-upload-image>
-<app-game-frame></app-game-frame>
+<app-upload-image (createEvent)="triggerEvent()"></app-upload-image>
+
+<!-- Full screen modal -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel">Previwer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div style="width: fit-content; margin: 10px;" id="renderer-frame">
+          <canvas width="800" height="600" style="background-color: black"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

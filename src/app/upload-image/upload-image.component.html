@@ -9,13 +9,13 @@
   </ng-container>
 </div>
 
-<div style="padding: 10px;">
+<div style="padding: 10px;text-align: center;">
 
   <ng-container *ngFor="let actionkey of MapKeys(actionGroup)">
     <div class="mb-3" style="display: flex;">
 
-      <form style="width: 500px;" *ngIf="actionGroup[actionkey]" [formGroup]="actionGroup[actionkey]" (submit)="previwerAndImport(actionkey,actionGroup[actionkey].value)">
-        <span class="fs-4">Action: </span><label class="form-label fw-bold">{{actionkey}}</label>
+      <form style="width: 500px;" *ngIf="actionGroup[actionkey]" [formGroup]="actionGroup[actionkey]" (submit)="previwerAndImport(actionGroup[actionkey].value,actionkey)">
+        <span class="fs-4">Action: </span><label class="form-label fs-5 fw-bold text-primary">{{actionkey}}</label>
         <div class="input-group input-group-sm mb-1">
           <input type="file" class="form-control" id="image_file" (change)="loadImage($event,actionkey)" formControlName="image_file" accept="image/*">
         </div>
@@ -52,4 +52,6 @@
     
     </div>
   </ng-container>
+
+  <button type="button" class="btn btn-dark" [disabled]="spriteList.length < 1" (click)="importSubmit()">生成遊戲畫面</button>
 </div>
