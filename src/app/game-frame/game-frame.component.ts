@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MainScene } from '../model/main-scene';
 import { PackageService } from '../service/package.service';
 import 'phaser';
@@ -10,17 +10,23 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './game-frame.component.html',
   styleUrls: ['./game-frame.component.scss']
 })
-export class GameFrameComponent implements OnInit {
+export class GameFrameComponent implements OnInit,OnDestroy {
 
   constructor(
     private packageService: PackageService,
     public dialogRef: MatDialogRef<GameFrameComponent>
   ) { }
-  importPackage: SpriteItem[] = []
+  importPackage: SpriteItem[] = [];
+  game?: Phaser.Game;
 
   ngOnInit(): void {
     this.importPackage = this.packageService.sendPackage();
     this.init();
+  }
+
+  ngOnDestroy() {
+    console.log('ngOnDestroy');
+    if(this.game) this.game.destroy(true);
   }
 
   closeGameFrame() {
@@ -28,7 +34,6 @@ export class GameFrameComponent implements OnInit {
   }
 
   init() {
-    console.log(this.importPackage);
     if(this.importPackage.length < 1) return;
 
     const mainScene = new MainScene(this.importPackage)
@@ -49,13 +54,13 @@ export class GameFrameComponent implements OnInit {
       physics: {
         default: 'arcade',
         arcade: {
-          gravity: { x:0, y:0 },
+          gravity: { x:0, y:1000 },
           // debug: true
         }
       },
       scene:[mainScene]
     }
-    const game = new Phaser.Game(config);
+    this.game = new Phaser.Game(config);
   }
 
 }

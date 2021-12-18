@@ -11,7 +11,15 @@ export class MainScene extends Phaser.Scene {
   preload() {
     this.roleSprite.forEach(sprite => {
       this.load.spritesheet(sprite.key, sprite.image_url, { frameWidth:sprite.width, frameHeight:sprite.height })
-    })
+    });
+    // this.load.tilemapTiledJSON('platform','assets/animationtest.json');
+    // this.load.image('tile','assets/Tile_set.png');
+
+    this.load.tilemapTiledJSON('base-platform','assets/baseplatform.json');
+    this.load.image('tile','assets/Tiles.png');
+    this.load.image('back_0','assets/Background_0.png');
+    this.load.image('back_1','assets/Background_1.png');
+    this.load.image('back_2','assets/Background_2.png');
   }
 
   create() {
@@ -25,6 +33,24 @@ export class MainScene extends Phaser.Scene {
       this.anims.create(config);
     })
 
-    const role = this.add.existing(new RoleModule(this.roleSprite,this));
+    // const platform = this.make.tilemap({key:'platform',tileWidth:8,tileHeight:8});
+    // const tileset = platform.addTilesetImage('scene_03','tile');
+    // const layer:any = platform.createLayer('Layer1',tileset,0,0);
+    // platform.setCollisionBetween(145,167);
+    // platform.setCollisionBetween(540,551);
+    // this.physics.add.existing(layer,true)
+    // layer.body.x = 0;
+    // layer.body.y = 500;
+    this.add.image(400,250,'back_0').setScale(2);
+    this.add.image(400,250,'back_1').setScale(2);
+    this.add.image(400,250,'back_2').setScale(2);
+
+    const basePlatform = this.make.tilemap({key:'base-platform',tileWidth:16,tileHeight:16});
+    const tileset = basePlatform.addTilesetImage('tile01','tile');
+    const layer = basePlatform.createLayer('BaseLayer ',tileset,0,-40);
+    basePlatform.setCollisionBetween(41,79);
+
+    const role = this.add.existing(new RoleModule(this.roleSprite,layer,this));
+    this.physics.add.collider(layer,role)
   }
 }
