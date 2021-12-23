@@ -1,0 +1,17 @@
+.config-frame {
+  margin: auto;
+  // margin-top: 1em;
+  // margin-bottom: 1em;
+  padding: 10px;
+  width:fit-content;
+  max-width: 1000px;
+  min-width: 500px;
+  background: rgb(16 16 16 / 53%);
+  border-radius: 15px;
+  box-shadow: 3px 6px 10px 5px rgb(0 0 0 / 67%);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid #1c1c1c;
+  border-bottom: 2px solid #202020;
+  backdrop-filter: blur(5px);
+}

@@ -23,12 +23,13 @@ export class MainScene extends Phaser.Scene {
   }
 
   create() {
+    let reapet = ['Idle','Move'];
     this.roleSprite.forEach(sprite => {
       const config: Phaser.Types.Animations.Animation = {
         key:sprite.key,
         frames: this.anims.generateFrameNumbers(sprite.key, { start:0, end: (sprite.frame-1)}),
         frameRate: sprite.frameRate,
-        repeat: -1
+        repeat: reapet.includes(sprite.key) ? -1 : 0
       }
       this.anims.create(config);
     })

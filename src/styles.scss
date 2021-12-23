@@ -13,3 +13,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-dialog-content {
   overflow: hidden !important;
 }
+.back-img {
+  background-image: url(assets/web_bg.jpeg);
+  background-size: cover;
+  // background-color: brown;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}

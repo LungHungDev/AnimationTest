@@ -18,7 +18,17 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
   /**
    * 可增加的動畫清單
    */
-  actionList = ['Idle','Move','Jump','Fall'];
+  // actionList = ['Idle','Move','Jump','Fall','custom1','custom2','custom3'];
+  actionList = [
+    { key:'Idle',button:null,name:'待機' },
+    { key:'Move',button:'方向鍵左、右',name:'移動' },
+    { key:'Jump',button:'空白鍵',name:'跳躍' },
+    { key:'Fall',button:null,name:'落下' },
+    { key:'Slide',button:'SHIFT',name:'迴避/翻滾'},
+    { key:'Custom1',button:'Z',name:'自訂動作1' },
+    { key:'Custom2',button:'X',name:'自訂動作2' },
+    { key:'Custom3',button:'C',name:'自訂動作3' },
+  ]
 
   /**
    * 存放動畫圖檔路徑和css動畫標籤
@@ -41,7 +51,7 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.actionGroup[this.actionList[0]] = this.createForm();
+    this.actionGroup[this.actionList[0].key] = this.createForm();
     // this.importSubmit();
   }
 

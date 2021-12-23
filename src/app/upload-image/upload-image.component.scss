@@ -3,9 +3,93 @@
 }
 
 .previwer {
-  width: 11rem;
-  height: 11rem;
+  width: 10rem;
+  height: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(125, 125, 125, 0.5);
+}
+.title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+  color: aliceblue;
+  text-shadow: 5px 4px 4px rgb(171 13 13);
+  font-family: 'Shizuru', cursive;
+}
+.btn {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  text-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+  // backdrop-filter: blur(15px);
+  color: aliceblue;
+}
+.btn[type='submit']:disabled {
+  color: black;
+  opacity: 0.35;
+}
+// .btn-dark {
+//   color: aliceblue;
+//   box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+//   border-top: 1px solid rgba(255, 255, 255, 0.5);
+//   border-left: 1px solid rgba(255, 255, 255, 0.5);
+// }
+.btn-dark[type='button']:disabled {
+  color: black;
+  opacity: 0.7;
+}
+
+.container {
+  width: 850px;
+  padding: 1em 0.5em;
+  margin-bottom: 2em;
+  background: rgba(26, 25, 25, 0.4);
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px rgb(0 0 0 / 65%);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid #363636;
+  border-bottom: 1px solid #363636;
+  // backdrop-filter: blur(5px);
+}
+.form-check {
+  color: aliceblue;
+  text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);
+  text-align: center;
+  font-size: 15px;
+  font-stretch: condensed;
+}
+.form-check-input {
+  margin-left: 0;
+}
+
+.form-frame {
+  padding: 1em;
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  background: rgba(54 54 54 / 24%);
+  border-radius: 15px;
+  box-shadow: 7px 5px 8px rgb(0 0 0 / 40%);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid #363636;
+  border-bottom: 1px solid #363636;
+  // backdrop-filter: blur(5px);
+}
+.form-control {
+  background: rgb(0 0 0 / 52%);
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 0;
+  border-top: 1px solid #363636;
+}
+.input-group-text {
+  background: rgb(0 0 0 / 52%);
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 0;
+  border-left: 1px solid #363636;
+  border-top: 1px solid #363636;
 }
