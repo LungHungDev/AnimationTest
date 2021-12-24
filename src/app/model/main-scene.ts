@@ -4,7 +4,7 @@ import 'phaser';
 const MapKeys = Object.keys;
 
 export class MainScene extends Phaser.Scene {
-  constructor(private roleSprite: SpriteItem[]) {
+  constructor(private roleSprite: SpriteItem[],private isRoleDefaultRight:boolean) {
     super('MainScene');
   }
 
@@ -51,7 +51,7 @@ export class MainScene extends Phaser.Scene {
     const layer = basePlatform.createLayer('BaseLayer ',tileset,0,-40);
     basePlatform.setCollisionBetween(41,79);
 
-    const role = this.add.existing(new RoleModule(this.roleSprite,layer,this));
+    const role = this.add.existing(new RoleModule(this.roleSprite,this.isRoleDefaultRight,layer,this));
     this.physics.add.collider(layer,role)
   }
 }

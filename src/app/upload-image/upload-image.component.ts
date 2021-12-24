@@ -165,6 +165,8 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
    * 確定生成遊戲畫面
    */
   importSubmit() {
+    const isRoleDefaultRight:any = document.getElementById('isRoleDefaultRight')!;
+    this.packageService.isRoleDefaultRight = isRoleDefaultRight.checked;
     // if(this.spriteList.length < 1) {
     //   Swal.fire('錯誤', '請先上傳圖片並點擊確定匯入', 'error');
     //   return;

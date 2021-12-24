@@ -6,6 +6,7 @@ import { SpriteItem } from '../model/interface';
 })
 export class PackageService {
   importPackage:SpriteItem[] = [];
+  isRoleDefaultRight:boolean = true;
   constructor() { }
 
   getPackage(spriteList:SpriteItem[]) {

@@ -36,20 +36,20 @@ export class GameFrameComponent implements OnInit,OnDestroy {
   init() {
     if(this.importPackage.length < 1) return;
 
-    const mainScene = new MainScene(this.importPackage)
+    const mainScene = new MainScene(this.importPackage,this.packageService.isRoleDefaultRight)
     const config:Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       width: 800,
       height: 600,
       parent: 'game-view',
       backgroundColor: '#000000',
-      antialias:false,
-      roundPixels:true,
-      autoFocus:true,
-      disableContextMenu:true,
-      transparent:false,
-      preserveDrawingBuffer:false,
-      failIfMajorPerformanceCaveat:true,
+      // antialias:false,
+      // roundPixels:true,
+      // autoFocus:true,
+      // disableContextMenu:true,
+      // transparent:false,
+      // preserveDrawingBuffer:false,
+      // failIfMajorPerformanceCaveat:true,
       banner:false,
       physics: {
         default: 'arcade',

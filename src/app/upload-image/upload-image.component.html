@@ -1,19 +1,22 @@
 <h1 class="title">Image Config</h1>
+<!-- <button class="crystal-btn"><a>確定匯入</a></button>
+<div class="crystal-btn"><a>確定匯入</a></div>
+<button class="disabled-btn"><a>確定匯入</a></button> -->
 
 <div class="container">
   <div class="row">
-    <ng-container *ngFor="let action of actionList">
-      <div class="col-4 form-check">
-        <input class="form-check-input" type="checkbox" [id]="action.key+'-check'" (change)="addType($event,action.key)" [disabled]="action.key == 'Idle'" [checked]="action.key == 'Idle'">
-        <label class="form-check-label" [for]="action.key+'-check'">{{action.key}}{{action.name}}</label><span *ngIf="action.button"> 【按鍵: {{action.button}}】</span>
-      </div>
-    </ng-container>
     <div class="col-4 form-check form-switch">
       <span style="float: left;">角色預設面向</span>
       <label class="form-check-label">左</label>
-      <input class="form-check-input" style="float: none;" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
+      <input class="form-check-input" style="float: none;" type="checkbox" role="switch" id="isRoleDefaultRight" checked>
       <label class="form-check-label">右</label>
     </div>
+    <ng-container *ngFor="let action of actionList">
+      <div class="col-4 form-check">
+        <input class="form-check-input" type="checkbox" [id]="action.key+'-check'" (change)="addType($event,action.key)" [disabled]="(action.key == 'Idle')||(action.key == 'Slide')" [checked]="action.key == 'Idle'">
+        <label class="form-check-label" [for]="action.key+'-check'">{{action.key}} {{action.name}}</label><span *ngIf="action.button">【按鍵:{{action.button}}】</span>
+      </div>
+    </ng-container>
   </div>
 </div>
 
@@ -22,8 +25,8 @@
   <ng-container *ngFor="let actionkey of MapKeys(actionGroup)">
     <div class="mb-3 form-frame">
 
-      <form style="width: 500px;" *ngIf="actionGroup[actionkey]" [formGroup]="actionGroup[actionkey]" (submit)="previwerAndImport(actionGroup[actionkey].value,actionkey)">
-        <span class="fs-4" style="color: rgb(233, 233, 233);text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);">Action: </span><label class="form-label fs-5 fw-bold" style="color: rgb(218, 154, 125);text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);">{{actionkey}}</label>
+      <form style="width: 500px;font-family: 'Noto Sans TC', cursive;" *ngIf="actionGroup[actionkey]" [formGroup]="actionGroup[actionkey]" (submit)="previwerAndImport(actionGroup[actionkey].value,actionkey)">
+        <span class="fs-2" style="color: rgb(233, 233, 233);text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);font-family: 'Oooh Baby', cursive;">Action: </span><label class="form-label fs-5 fw-bold" style="color: rgb(218, 154, 125);text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);font-family: 'Shizuru';">{{actionkey}}</label>
         <div class="input-group input-group-sm mb-1">
           <input type="file" class="form-control" id="image_file" (change)="loadImage($event,actionkey)" formControlName="image_file" accept="image/*">
         </div>
@@ -55,11 +58,25 @@
         <div class="card previwer mb-3">
           <div [id]="actionkey+'Show'"></div>
         </div>
-        <button *ngIf="imageUrlGroup[actionkey]&&imageUrlGroup[actionkey].styleElement" type="button" [disabled]="checkSprite(actionkey)" (click)="importSprite(actionGroup[actionkey],actionkey)" class="btn btn-success mb-1">確定匯入</button>
+        <button *ngIf="imageUrlGroup[actionkey]&&imageUrlGroup[actionkey].styleElement"
+          type="button"
+          class="green-light"
+          [ngClass]="{'crystal-btn':!checkSprite(actionkey),'disabled-btn':checkSprite(actionkey)}"
+          [disabled]="checkSprite(actionkey)" 
+          (click)="importSprite(actionGroup[actionkey],actionkey)">
+          <a>確定匯入</a>
+        </button>
       </div>
     
     </div>
   </ng-container>
 
-  <button type="button" class="btn btn-dark" [disabled]="!checkSprite('Idle')" (click)="importSubmit()">生成遊戲畫面</button>
+  <button type="button"
+    class="dark-light"
+    style="width: 155px;"
+    [ngClass]="{'crystal-btn':checkSprite('Idle'),'disabled-btn':!checkSprite('Idle')}" 
+    [disabled]="!checkSprite('Idle')" 
+    (click)="importSubmit()">
+    <a>生成遊戲畫面</a>
+  </button>
 </div>

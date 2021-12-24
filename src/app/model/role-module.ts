@@ -13,7 +13,7 @@ export class RoleModule extends Phaser.Physics.Arcade.Sprite {
   hasCustom3:boolean = false;
 
   /**預設面向左邊 */
-  isRoleDefaultLeft:boolean = false;
+  isDefaultRight!:boolean;
   isPlayerAction:boolean = false;
   isJump:boolean = false;
   isSlide:boolean = false;
@@ -21,8 +21,9 @@ export class RoleModule extends Phaser.Physics.Arcade.Sprite {
 
   keys:any = this.scene.input.keyboard.addKeys('RIGHT,LEFT,Z,X,C,SPACE,SHIFT',false,true);
 
-  constructor(private spritePackage: SpriteItem[],private layer:Phaser.Tilemaps.TilemapLayer,public scene: MainScene) {
+  constructor(private spritePackage: SpriteItem[],private isRoleDefaultRight:boolean,private layer:Phaser.Tilemaps.TilemapLayer,public scene: MainScene) {
     super(scene,400,400,spritePackage[0].key);
+    this.isDefaultRight = isRoleDefaultRight
     scene.physics.world.enableBody(this);
     this.setCollideWorldBounds(true);
 
@@ -63,7 +64,7 @@ export class RoleModule extends Phaser.Physics.Arcade.Sprite {
     //向左跑 Run
     if(this.keys.LEFT.isDown) {
       if(this.isPlayerAction) return;
-      this.flipX = this.isRoleDefaultLeft ? true : false;
+      this.flipX = this.isDefaultRight ? true : false;
       this.isPlayerView = false;
       this.setVelocityX(-150);
       if(!this.isJump) this.anims.play('Move',true);
@@ -80,7 +81,7 @@ export class RoleModule extends Phaser.Physics.Arcade.Sprite {
     //向右跑 Run
     if(this.keys.RIGHT.isDown) {
       if(this.isPlayerAction) return;
-      this.flipX = this.isRoleDefaultLeft ? false : true;
+      this.flipX = this.isDefaultRight ? false : true;
       this.isPlayerView = true;
       this.setVelocityX(150);
       if(!this.isJump) this.anims.play('Move',true);
