@@ -13,7 +13,7 @@
     </div>
     <ng-container *ngFor="let action of actionList">
       <div class="col-4 form-check">
-        <input class="form-check-input" type="checkbox" [id]="action.key+'-check'" (change)="addType($event,action.key)" [disabled]="(action.key == 'Idle')||(action.key == 'Slide')" [checked]="action.key == 'Idle'">
+        <input class="form-check-input" type="checkbox" [id]="action.key+'-check'" (change)="addType($event,action.key)" [disabled]="action.key == 'Idle'" [checked]="action.key == 'Idle'">
         <label class="form-check-label" [for]="action.key+'-check'">{{action.key}} {{action.name}}</label><span *ngIf="action.button">【按鍵:{{action.button}}】</span>
       </div>
     </ng-container>

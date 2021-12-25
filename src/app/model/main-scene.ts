@@ -9,6 +9,37 @@ export class MainScene extends Phaser.Scene {
   }
 
   preload() {
+    // if(this.roleSprite.length < 1) {
+    //   this.isRoleDefaultRight = false;
+    //   let config = [];
+    //   config[0] = new SpriteItem({
+    //     key:'Idle',
+    //     frame:5,
+    //     frameRate:7,
+    //     height:48,
+    //     width:48,
+    //     image_url:'assets/role_cow_old.png'
+    //   });
+    //   config[1] = new SpriteItem({
+    //     key:'Slide',
+    //     frame:3,
+    //     frameRate:6,
+    //     height:48,
+    //     width:48,
+    //     image_url:'assets/role_cow_jump.png'
+    //   });
+    //   config[2] = new SpriteItem({
+    //     key:'Move',
+    //     frame:3,
+    //     frameRate:6,
+    //     height:48,
+    //     width:48,
+    //     image_url:'assets/role_cow_jump.png'
+    //   });
+    //   this.roleSprite.push(config[0]);
+    //   this.roleSprite.push(config[1]);
+    //   this.roleSprite.push(config[2]);
+    // }
     this.roleSprite.forEach(sprite => {
       this.load.spritesheet(sprite.key, sprite.image_url, { frameWidth:sprite.width, frameHeight:sprite.height })
     });
@@ -25,6 +56,7 @@ export class MainScene extends Phaser.Scene {
   create() {
     let reapet = ['Idle','Move'];
     this.roleSprite.forEach(sprite => {
+      console.log(sprite.key,reapet.includes(sprite.key));
       const config: Phaser.Types.Animations.Animation = {
         key:sprite.key,
         frames: this.anims.generateFrameNumbers(sprite.key, { start:0, end: (sprite.frame-1)}),

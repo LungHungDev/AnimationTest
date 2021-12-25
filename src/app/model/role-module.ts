@@ -14,16 +14,25 @@ export class RoleModule extends Phaser.Physics.Arcade.Sprite {
 
   /**預設面向左邊 */
   isDefaultRight!:boolean;
+
+  /**角色是否處於動作狀態中 */
   isPlayerAction:boolean = false;
+
+  /**角是否屬於跳躍狀態中 */
   isJump:boolean = false;
+
+  /**角色是否屬於迴避狀態中 */
   isSlide:boolean = false;
+
+  /**角色是否面向右邊 */
   isPlayerView:boolean = true;
 
   keys:any = this.scene.input.keyboard.addKeys('RIGHT,LEFT,Z,X,C,SPACE,SHIFT',false,true);
 
   constructor(private spritePackage: SpriteItem[],private isRoleDefaultRight:boolean,private layer:Phaser.Tilemaps.TilemapLayer,public scene: MainScene) {
     super(scene,400,400,spritePackage[0].key);
-    this.isDefaultRight = isRoleDefaultRight
+    this.isDefaultRight = isRoleDefaultRight;
+    this.isPlayerView = this.isRoleDefaultRight;
     scene.physics.world.enableBody(this);
     this.setCollideWorldBounds(true);
 
@@ -126,11 +135,24 @@ export class RoleModule extends Phaser.Physics.Arcade.Sprite {
     if(this.isPlayerAction) return;
     this.isPlayerAction = true;
     this.isSlide = true;
-    setTimeout(() => this.x += this.isPlayerView ? 180: -180, 20);
+
+    let slideDirection = this.keys.LEFT.isDown ? -1 : (this.keys.RIGHT.isDown ? 1 : (this.isPlayerView ? -1 : 1));
     
-    setTimeout(() => {
+    const slide = this.anims.play('Slide',true).on('animationupdate',(event:any,AnimationFrame:any) => {
+      if(event.key != 'Slide') return;
+      
+      this.setVelocityX(slideDirection * 300);
+    }).once('animationcomplete-' + 'Slide', () => {
+      this.setVelocity(0,0);
       this.isPlayerAction = false;
-      setTimeout(() => this.isSlide = false, 1000);
-    }, 300)
+      this.isSlide = false;
+      slide.removeListener('animationupdate');
+    })
+
+    // setTimeout(() => this.x += this.isPlayerView ? 180: -180, 20);
+    // setTimeout(() => {
+    //   this.isPlayerAction = false;
+    //   setTimeout(() => this.isSlide = false, 1000);
+    // }, 300)
   }
 }

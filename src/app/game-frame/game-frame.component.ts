@@ -51,6 +51,12 @@ export class GameFrameComponent implements OnInit,OnDestroy {
       // preserveDrawingBuffer:false,
       // failIfMajorPerformanceCaveat:true,
       banner:false,
+      fps:{
+        min: 30,
+        target: 60,
+        forceSetTimeOut: true,
+        smoothStep:true
+      },
       physics: {
         default: 'arcade',
         arcade: {
