@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import  { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreateAnyObject, FormValue, SpriteItem, ImageObject } from '../model/interface';
-import Swal from 'sweetalert2';
 import { PackageService } from '../service/package.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GameFrameComponent } from '../game-frame/game-frame.component';
@@ -19,7 +18,7 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
    * 可增加的動畫清單
    */
   // actionList = ['Idle','Move','Jump','Fall','custom1','custom2','custom3'];
-  actionList = [
+  actionList: { key:string, button: string | null, name : string }[] = [
     { key:'Idle',button:null,name:'待機' },
     { key:'Move',button:'方向鍵左、右',name:'移動' },
     { key:'Jump',button:'空白鍵',name:'跳躍' },
@@ -145,7 +144,7 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
   
   /**
    * 匯入生成遊戲的精靈圖列表
-   * @param event 創建動畫表單
+   * @param form 創建動畫表單
    * @param actionkey 動畫名稱
    */
   importSprite(form:any,actionkey:string) {

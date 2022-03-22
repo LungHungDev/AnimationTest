@@ -25,8 +25,20 @@
   <ng-container *ngFor="let actionkey of MapKeys(actionGroup)">
     <div class="mb-3 form-frame">
 
-      <form style="width: 500px;font-family: 'Noto Sans TC', cursive;" *ngIf="actionGroup[actionkey]" [formGroup]="actionGroup[actionkey]" (submit)="previwerAndImport(actionGroup[actionkey].value,actionkey)">
-        <span class="fs-2" style="color: rgb(233, 233, 233);text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);font-family: 'Oooh Baby', cursive;">Action: </span><label class="form-label fs-5 fw-bold" style="color: rgb(218, 154, 125);text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);font-family: 'Shizuru';">{{actionkey}}</label>
+      <form style="width: 500px;font-family: 'Noto Sans TC', cursive;"
+        *ngIf="actionGroup[actionkey]"
+        [formGroup]="actionGroup[actionkey]"
+        (submit)="previwerAndImport(actionGroup[actionkey].value,actionkey)">
+        <span class="fs-2" style="
+            color: rgb(233, 233, 233);
+            text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);
+            font-family: 'Oooh Baby', cursive;">Action: 
+        </span>
+          <label class="form-label fs-5 fw-bold" style="
+            color: rgb(218, 154, 125);
+            text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);
+            font-family: 'Shizuru';">{{actionkey}}
+          </label>
         <div class="input-group input-group-sm mb-1">
           <input type="file" class="form-control" id="image_file" (change)="loadImage($event,actionkey)" formControlName="image_file" accept="image/*">
         </div>
