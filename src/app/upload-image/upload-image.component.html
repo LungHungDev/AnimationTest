@@ -1,94 +1,104 @@
 <h1 class="title">Image Config</h1>
+<br>
 <!-- <button class="crystal-btn"><a>確定匯入</a></button>
 <div class="crystal-btn"><a>確定匯入</a></div>
 <button class="disabled-btn"><a>確定匯入</a></button> -->
 
 <div class="container">
   <div class="row">
-    <div class="col-4 form-check form-switch">
-      <span style="float: left;">角色預設面向</span>
-      <label class="form-check-label">左</label>
-      <input class="form-check-input" style="float: none;" type="checkbox" role="switch" id="isRoleDefaultRight" checked>
-      <label class="form-check-label">右</label>
+
+    <div [ngClass]="['form-check','form-switch',this.dynamicCol]">
+      <div>
+        <span style="float: left;">角色預設面向</span>
+        <label class="form-check-label">左&nbsp;</label>
+        <input class="form-check-input" style="float: none;" type="checkbox" role="switch" id="isRoleDefaultRight"
+          checked>
+        <label class="form-check-label">&nbsp;右</label>
+      </div>
+      <span>---</span>
+      <hr>
     </div>
-    <ng-container *ngFor="let action of actionList">
-      <div class="col-4 form-check">
-        <input class="form-check-input" type="checkbox" [id]="action.key+'-check'" (change)="addType($event,action.key)" [disabled]="action.key == 'Idle'" [checked]="action.key == 'Idle'">
-        <label class="form-check-label" [for]="action.key+'-check'">{{action.key}} {{action.name}}</label><span *ngIf="action.button">【按鍵:{{action.button}}】</span>
+
+    <ng-container *ngFor="let action of this.actionList">
+      <div [ngClass]="['form-check','form-switch',this.dynamicCol]">
+        <div>
+          <input class="form-check-input" type="checkbox" [id]="action.key+'-check'"
+            (change)="addType($event,action.key)" [disabled]="action.key == 'Idle'" [checked]="action.key == 'Idle'">
+          <label class="form-check-label" [for]="action.key+'-check'">{{action.key}} {{action.name}}</label>
+        </div>
+        <span>{{action['button'] ? "【按鍵:" + action['button'] + "】" : "---"}}</span>
+        <hr>
       </div>
     </ng-container>
+
   </div>
 </div>
 
 <div style="padding: 10px;text-align: center;">
 
-  <ng-container *ngFor="let actionkey of MapKeys(actionGroup)">
+  <ng-container *ngFor="let actionkey of MapKeys(this.actionGroup)">
     <div class="mb-3 form-frame">
 
-      <form style="width: 500px;font-family: 'Noto Sans TC', cursive;"
-        *ngIf="actionGroup[actionkey]"
-        [formGroup]="actionGroup[actionkey]"
-        (submit)="previwerAndImport(actionGroup[actionkey].value,actionkey)">
+      <form style="width: 500px;font-family: 'Noto Sans TC', cursive;" *ngIf="this.actionGroup[actionkey]"
+        [formGroup]="this.actionGroup[actionkey]"
+        (submit)="previwerAndImport(this.actionGroup[actionkey]['value'],actionkey)">
         <span class="fs-2" style="
             color: rgb(233, 233, 233);
             text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);
-            font-family: 'Oooh Baby', cursive;">Action: 
+            font-family: 'Oooh Baby', cursive;">Action:
         </span>
-          <label class="form-label fs-5 fw-bold" style="
+        <label class="form-label fs-5 fw-bold" style="
             color: rgb(218, 154, 125);
             text-shadow: 4px 4px 5px rgb(0 0 0 / 50%);
             font-family: 'Shizuru';">{{actionkey}}
-          </label>
+        </label>
         <div class="input-group input-group-sm mb-1">
-          <input type="file" class="form-control" id="image_file" (change)="loadImage($event,actionkey)" formControlName="image_file" accept="image/*">
+          <input type="file" class="form-control" id="image_file" (change)="loadImage($event,actionkey)"
+            formControlName="image_file" accept="image/*">
         </div>
-        
+
         <div class="input-group input-group-sm mb-1">
           <span class="input-group-text">單幀寬度(px)</span>
           <input type="number" class="form-control" placeholder="請輸入整數" id="width" formControlName="width">
           <span class="input-group-text">單幀高度(px)</span>
           <input type="number" class="form-control" placeholder="請輸入整數" id="height" formControlName="height">
         </div>
-    
+
         <div class="input-group input-group-sm mb-1">
           <span class="input-group-text">總幀數</span>
           <input type="number" class="form-control" placeholder="請輸入整數" formControlName="frame">
           <span class="input-group-text">每秒幀數<span style="font-size: 12px;">(建議7～9開始調整)</span></span>
           <input type="number" class="form-control" placeholder="請輸入整數" id="frameRate" formControlName="frameRate">
         </div>
-    
-        <div *ngIf="imageUrlGroup[actionkey]" class="input-group input-group-sm mb-1">
-          <img class="p-2 mx-auto" style="max-width: 500px; max-height: 3em;" [src]="imageUrlGroup[actionkey].url">
+
+        <div *ngIf="this.imageUrlGroup[actionkey]" class="input-group input-group-sm mb-1">
+          <img class="p-2 mx-auto" style="max-width: 500px; max-height: 3em;"
+            [src]="this.imageUrlGroup[actionkey]['url']">
         </div>
         <div class="mb-1 text-center">
-          <input type="submit" class="btn btn-secondary" [disabled]="(actionGroup[actionkey].errors != null)||(!actionGroup[actionkey].valid)" value="載入">
+          <input type="submit" class="btn btn-secondary"
+            [disabled]="(actionGroup[actionkey]['errors'] != null)||(!actionGroup[actionkey]['valid'])" value="載入">
           <button type="button" (click)="resetForm(actionkey)" class="btn btn-outline-secondary">重設</button>
         </div>
       </form>
-      
-      <div *ngIf="imageUrlGroup[actionkey]" class="show-frame mx-3 text-center">
+
+      <div *ngIf="this.imageUrlGroup[actionkey]" class="show-frame mx-3 text-center">
         <div class="card previwer mb-3">
           <div [id]="actionkey+'Show'"></div>
         </div>
-        <button *ngIf="imageUrlGroup[actionkey]&&imageUrlGroup[actionkey].styleElement"
-          type="button"
-          class="green-light"
-          [ngClass]="{'crystal-btn':!checkSprite(actionkey),'disabled-btn':checkSprite(actionkey)}"
-          [disabled]="checkSprite(actionkey)" 
-          (click)="importSprite(actionGroup[actionkey],actionkey)">
+        <button *ngIf="this.imageUrlGroup[actionkey]&&this.imageUrlGroup[actionkey]['styleElement']" type="button"
+          class="green-light" [ngClass]="{'crystal-btn':!checkSprite(actionkey),'disabled-btn':this.checkSprite(actionkey)}"
+          [disabled]="this.checkSprite(actionkey)" (click)="this.importSprite(this.actionGroup[actionkey],actionkey)">
           <a>確定匯入</a>
         </button>
       </div>
-    
+
     </div>
   </ng-container>
 
-  <button type="button"
-    class="dark-light"
-    style="width: 155px;"
-    [ngClass]="{'crystal-btn':checkSprite('Idle'),'disabled-btn':!checkSprite('Idle')}" 
-    [disabled]="!checkSprite('Idle')" 
-    (click)="importSubmit()">
+  <button type="button" class="dark-light" style="width: 155px;"
+    [ngClass]="{'crystal-btn':this.checkSprite('Idle'),'disabled-btn':!this.checkSprite('Idle')}"
+    [disabled]="!this.checkSprite('Idle')" (click)="this.importSubmit()">
     <a>生成遊戲畫面</a>
   </button>
 </div>

@@ -4,6 +4,8 @@ import { CreateAnyObject, FormValue, SpriteItem, ImageObject } from '../model/in
 import { PackageService } from '../service/package.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GameFrameComponent } from '../game-frame/game-frame.component';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-upload-image',
@@ -14,10 +16,7 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
   @Output() createEvent = new EventEmitter<boolean>();
   MapKeys = Object.keys;
 
-  /**
-   * 可增加的動畫清單
-   */
-  // actionList = ['Idle','Move','Jump','Fall','custom1','custom2','custom3'];
+  /**可增加的動畫清單 */
   actionList: { key:string, button: string | null, name : string }[] = [
     { key:'Idle',button:null,name:'待機' },
     { key:'Move',button:'方向鍵左、右',name:'移動' },
@@ -29,29 +28,50 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
     { key:'Custom3',button:'C',name:'自訂動作3' },
   ]
 
-  /**
-   * 存放動畫圖檔路徑和css動畫標籤
-   */
+  /**存放動畫圖檔路徑和css動畫標籤 */
   imageUrlGroup:{[key:string]:ImageObject} = {};
 
-  /**
-   * 存放創建動畫的表單
-   */
+  /**存放創建動畫的表單 */
   actionGroup:CreateAnyObject = {};
 
-  /**
-   * 存放要匯入phaser的精靈物件相關設定
-   */
+  /**存放要匯入phaser的精靈物件相關設定 */
   spriteList:SpriteItem[] = [];
+
+  /**動態欄位數量 */
+  dynamicCol:string = ''
 
   constructor(
     private packageService: PackageService,
-    public matDialog: MatDialog
+    public matDialog: MatDialog,
+    private media: MediaObserver
   ) { }
 
   ngOnInit(): void {
     this.actionGroup[this.actionList[0].key] = this.createForm();
     // this.importSubmit();
+    this.media.asObservable()
+      .pipe(map(res => {
+        return {
+          mqAlias:res[0].mqAlias,
+          mediaQuery: res[0].mediaQuery
+        }
+      }))
+      .subscribe(res => {
+        switch (res['mqAlias']) {
+          case 'xs':
+            this.dynamicCol = 'col-12';
+            break;
+
+          case 'sm':
+            this.dynamicCol = 'col-6';
+            break;
+
+          case 'md':
+          default:
+            this.dynamicCol = 'col-4';
+            break;
+        }
+      });
   }
 
   ngAfterViewInit() {
@@ -180,10 +200,12 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
     this.matDialog.open(GameFrameComponent,config)
   }
 
+  /**確認此欄位的動圖已經確定存入 */
   checkSprite(actionkey:string) {
     return this.spriteList.filter(item => item.key == actionkey).length > 0;
   }
 
+  /**刪除此欄位的動圖 */
   removeSprite(actionkey:string) {
     this.spriteList = this.spriteList.filter(item => item.key !== actionkey);
   }
