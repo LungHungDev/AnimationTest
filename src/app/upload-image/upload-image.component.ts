@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import  { FormControl, FormGroup, Validators } from '@angular/forms';
+import  { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CreateAnyObject, FormValue, SpriteItem, ImageObject } from '../model/interface';
 import { PackageService } from '../service/package.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -100,13 +100,13 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
    * 回傳一個新建的創建動畫表單
    */
   createForm() {
-    return new FormGroup({
-      image_file: new FormControl(null, Validators.required),
-      frame: new FormControl('', Validators.required),
-      frameRate: new FormControl('', Validators.required),
-      width: new FormControl('', Validators.required),
-      height: new FormControl('', Validators.required),
-      isSend: new FormControl(false)
+    return new UntypedFormGroup({
+      image_file: new UntypedFormControl(null, Validators.required),
+      frame: new UntypedFormControl('', Validators.required),
+      frameRate: new UntypedFormControl('', Validators.required),
+      width: new UntypedFormControl('', Validators.required),
+      height: new UntypedFormControl('', Validators.required),
+      isSend: new UntypedFormControl(false)
     });
   }
 
