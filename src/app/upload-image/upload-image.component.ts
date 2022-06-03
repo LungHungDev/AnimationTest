@@ -4,7 +4,8 @@ import { CreateAnyObject, FormValue, SpriteItem, ImageObject } from '../model/in
 import { PackageService } from '../service/package.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GameFrameComponent } from '../game-frame/game-frame.component';
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators'
 
 @Component({
@@ -38,17 +39,19 @@ export class UploadImageComponent implements OnInit,AfterViewInit {
   spriteList:SpriteItem[] = [];
 
   /**動態欄位數量 */
-  dynamicCol:string = ''
+  dynamicCol:string = '';
 
   constructor(
     private packageService: PackageService,
     public matDialog: MatDialog,
-    private media: MediaObserver
+    private media: MediaObserver,
+    private bp$: BreakpointObserver
   ) { }
 
   ngOnInit(): void {
     this.actionGroup[this.actionList[0].key] = this.createForm();
     // this.importSubmit();
+    this.bp$.observe([Breakpoints.Web]).subscribe(res => console.log(res));
     this.media.asObservable()
       .pipe(map(res => {
         return {

@@ -1,0 +1,4 @@
+{
+  "editor.maxTokenizationLineLength": 1e+47,
+  "editor.foldingMaximumRegions": 65000
+}
